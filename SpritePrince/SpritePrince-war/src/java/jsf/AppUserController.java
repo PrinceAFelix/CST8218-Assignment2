@@ -1,57 +1,47 @@
-/*
- *  Name:                  Prince Adrianne Felix
- *  Student Number:        040933287
- *  Class Name:            SpriteController
- * 
- */
-
 package jsf;
 
-import cst8218.feli0041.entity.Sprite;
-import cst8218.feli0041.entity.SpriteFacade;
-
-import java.awt.Color;
 import jsf.util.JsfUtil;
 import jsf.util.PaginationHelper;
-        
+import cst8218.feli0041.entity.AppUser;
+import cst8218.feli0041.entity.AppUserFacade;
+
+
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
-@Named("spriteController")
+@Named("appUserController")
 @SessionScoped
-public class SpriteController implements Serializable {
+public class AppUserController implements Serializable {
 
-    private Sprite current;
+    private AppUser current;
     private DataModel items = null;
     @EJB
-    private SpriteFacade ejbFacade;
+    private AppUserFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public SpriteController() {
+    public AppUserController() {
     }
 
-    public Sprite getSelected() {
+    public AppUser getSelected() {
         if (current == null) {
-            current = new Sprite();
+            current = new AppUser();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private SpriteFacade getFacade() {
+    private AppUserFacade getFacade() {
         return ejbFacade;
     }
 
@@ -79,13 +69,13 @@ public class SpriteController implements Serializable {
     }
 
     public String prepareView() {
-        current = (Sprite) getItems().getRowData();
+        current = (AppUser) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new Sprite();
+        current = new AppUser();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -93,7 +83,7 @@ public class SpriteController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("SpriteCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AppUserCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -102,7 +92,7 @@ public class SpriteController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (Sprite) getItems().getRowData();
+        current = (AppUser) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -110,7 +100,7 @@ public class SpriteController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("SpriteUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AppUserUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -119,7 +109,7 @@ public class SpriteController implements Serializable {
     }
 
     public String destroy() {
-        current = (Sprite) getItems().getRowData();
+        current = (AppUser) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -143,7 +133,7 @@ public class SpriteController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("SpriteDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AppUserDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -199,21 +189,21 @@ public class SpriteController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public Sprite getSprite(java.lang.Long id) {
+    public AppUser getAppUser(java.lang.Long id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = Sprite.class)
-    public static class SpriteControllerConverter implements Converter {
+    @FacesConverter(forClass = AppUser.class)
+    public static class AppUserControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            SpriteController controller = (SpriteController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "spriteController");
-            return controller.getSprite(getKey(value));
+            AppUserController controller = (AppUserController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "appUserController");
+            return controller.getAppUser(getKey(value));
         }
 
         java.lang.Long getKey(String value) {
@@ -233,71 +223,14 @@ public class SpriteController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Sprite) {
-                Sprite o = (Sprite) object;
+            if (object instanceof AppUser) {
+                AppUser o = (AppUser) object;
                 return getStringKey(o.getId());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Sprite.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + AppUser.class.getName());
             }
         }
 
-    }
-    
-    /**
-     * This Class implements the converter interface which will be use to convert hex value to color
-     * 
-     * @author prince
-     * 
-     * 
-     **/
-    @FacesConverter(forClass=Color.class, value="ColorConverter")
-    public static class ColorConverter implements Converter {
-        
-   
-        /**This method takes the string value and convert it to color value
-         * 
-         * @param context - represent the Faces context
-         * @param component - represents the UI component
-         * @param value - represents the string value
-         * @return  color - represents the converted color         
-         **/
-        @Override
-        public Object getAsObject(FacesContext context, UIComponent component, String value) {
-            
-            
-            if (value.isEmpty() || value.length() == 0) { //If value is empty
-                return null; //Return null
-            }
-            
-
-            if(value.length() > 7 || value.length() != 7 || value.charAt(0) != '#'){ //If value is greater than or not equal to 7 - We thro error
-                FacesMessage errMsg = new FacesMessage(value + " is not a valid color string: #RRGGBB");
-                throw new ConverterException(errMsg);
-            }else{ //If valid
-                int red = Integer.parseInt(value.substring(1,3),16);
-                int green = Integer.parseInt(value.substring(3,5),16);
-                int blue = Integer.parseInt(value.substring(5,7), 16);
-                Color color = new Color(red, green, blue); //Set the color object
-                
-                return color; //Return the color
-            }
-        }
-
-        /**
-         * This method 
-         * 
-         * @param context represent the Faces context
-         * @param component - represents the UI component
-         * @param value - represents the Color Object
-         * @return returns the string template for user input
-         **/
-        @Override
-        public String getAsString(FacesContext context, UIComponent component, Object value) {
-            String userInput = String.format("#%02x%02x%02x", ((Color)value).getRed(),((Color)value).getGreen(),((Color)value).getBlue());
-            
-            return userInput;
-        }
-        
     }
 
 }
