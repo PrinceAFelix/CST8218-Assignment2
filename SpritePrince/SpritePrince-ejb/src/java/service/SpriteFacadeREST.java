@@ -8,6 +8,8 @@ package service;
 
 import cst8218.feli0041.entity.Sprite;
 import java.util.List;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,12 +22,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
  * @author princ
  */
 @Stateless
+@DeclareRoles({"Admin"})
+@RolesAllowed({"Admin"})
 @Path("cst8218.feli0041.entity.sprite")
 public class SpriteFacadeREST extends AbstractFacade<Sprite> {
 
@@ -35,7 +40,20 @@ public class SpriteFacadeREST extends AbstractFacade<Sprite> {
     public SpriteFacadeREST() {
         super(Sprite.class);
     }
-
+    
+    @POST
+    public Response update(Sprite entity) {
+        Response response = null;
+        return response;
+    }
+    
+    @PUT
+    public Response replace(@PathParam("id") Long id, Sprite entity) {
+        Response response = null;
+        return response;
+    }
+    
+    
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -49,7 +67,7 @@ public class SpriteFacadeREST extends AbstractFacade<Sprite> {
     public void edit(@PathParam("id") Long id, Sprite entity) {
         super.edit(entity);
     }
-
+    
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {

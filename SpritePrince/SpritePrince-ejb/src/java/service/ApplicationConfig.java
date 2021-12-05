@@ -21,7 +21,6 @@ import javax.ws.rs.core.Application;
 @Named
 @ApplicationScoped
 @BasicAuthenticationMechanismDefinition
-
 @DatabaseIdentityStoreDefinition(
    dataSourceLookup = "${'java:comp/DefaultDataSource'}",
    callerQuery = "#{'select password from app.appuser where userid = ?'}",
