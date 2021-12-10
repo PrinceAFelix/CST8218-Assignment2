@@ -10,6 +10,8 @@ import java.util.Set;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
+import javax.security.enterprise.authentication.mechanism.http.FormAuthenticationMechanismDefinition;
+import javax.security.enterprise.authentication.mechanism.http.LoginToContinue;
 import javax.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
 import javax.security.enterprise.identitystore.PasswordHash;
 import javax.ws.rs.core.Application;
@@ -20,7 +22,11 @@ import javax.ws.rs.core.Application;
  */
 @Named
 @ApplicationScoped
-@BasicAuthenticationMechanismDefinition
+//@BasicAuthenticationMechanismDefinition
+@FormAuthenticationMechanismDefinition(
+  loginToContinue = @LoginToContinue(
+    loginPage = "/login.xhtml",
+    errorPage = "/error_login.xhtml"))
 @DatabaseIdentityStoreDefinition(
    dataSourceLookup = "${'java:comp/DefaultDataSource'}",
    callerQuery = "#{'select password from app.appuser where userid = ?'}",

@@ -22,16 +22,34 @@
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
+    <!--Index Form -->
     <security-constraint>
         <display-name>Constraint2</display-name>
         <web-resource-collection>
             <web-resource-name>Administration Area</web-resource-name>
             <description>Accessible to admin users only</description>
             <url-pattern>/faces/*</url-pattern>
+            <url-pattern>/faces/appUser</url-pattern>
+            <url-pattern>/faces/sprite</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description>Admin Area</description>
             <role-name>Admin</role-name>
         </auth-constraint>
     </security-constraint>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/login.xhtml</form-login-page>
+            <form-error-page>/error_login.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-role>
+        <description/>
+        <role-name>admin</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>user</role-name>
+    </security-role>
 </web-app>
