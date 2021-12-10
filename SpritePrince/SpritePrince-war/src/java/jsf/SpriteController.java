@@ -298,7 +298,7 @@ public class SpriteController implements Serializable {
                     ((Color)value).getGreen(),
                     ((Color)value).getBlue());
             
-            return userInput;
+            return userInput; //Return the string format
         }
         
     }

@@ -22,34 +22,42 @@
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
+    <security-constraint>
+        <display-name>Constrain1</display-name>
+        <web-resource-collection>
+            <web-resource-name>AppUser</web-resource-name>
+            <description>Accessible to admin users only</description>
+            <url-pattern>/faces/appUser/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>Constrict only to administrators</description>
+            <role-name>Admin</role-name>
+        </auth-constraint>
+    </security-constraint>
     <!--Index Form -->
     <security-constraint>
         <display-name>Constraint2</display-name>
         <web-resource-collection>
-            <web-resource-name>Administration Area</web-resource-name>
+            <web-resource-name>Sprite</web-resource-name>
             <description>Accessible to admin users only</description>
-            <url-pattern>/faces/*</url-pattern>
-            <url-pattern>/faces/appUser</url-pattern>
-            <url-pattern>/faces/sprite</url-pattern>
+            <url-pattern>/faces/sprite/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <description>Admin Area</description>
+            <description>JSF</description>
+            <role-name>JsfGroup</role-name>
             <role-name>Admin</role-name>
         </auth-constraint>
     </security-constraint>
-    <login-config>
-        <auth-method>FORM</auth-method>
-        <form-login-config>
-            <form-login-page>/login.xhtml</form-login-page>
-            <form-error-page>/error_login.xhtml</form-error-page>
-        </form-login-config>
-    </login-config>
-    <security-role>
-        <description/>
-        <role-name>admin</role-name>
-    </security-role>
-    <security-role>
-        <description/>
-        <role-name>user</role-name>
-    </security-role>
+    <security-constraint>
+        <display-name>Constraint3</display-name>
+        <web-resource-collection>
+            <web-resource-name>RESTFul</web-resource-name>
+            <description>Accessible to admin and RestGroup users only</description>
+            <url-pattern>/webresources/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>RestFul</description>
+            <role-name>RestGroup</role-name>
+        </auth-constraint>
+    </security-constraint>
 </web-app>

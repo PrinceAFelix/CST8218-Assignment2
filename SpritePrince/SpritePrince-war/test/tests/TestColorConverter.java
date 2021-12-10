@@ -43,25 +43,27 @@ public class TestColorConverter {
 
     @Test
      public void testColorConverterObject() {
+         //Testing the color converter object
          SpriteController.ColorConverter converter = new SpriteController.ColorConverter();
          Color colorObject;
-         colorObject = (Color)converter.getAsObject(
+         colorObject = (Color)converter.getAsObject( //Creating instance of it
                  new FacesContextWrapper(){},
                  new UIColumn(),
                  "#010203");
-         assertEquals(colorObject, new Color(1,2,3));
+         assertEquals(colorObject, new Color(1,2,3)); //This will decide if pass or fail
      }
      
      @Test
      public void testColorConverterString() {
+         //Testing the color converter string
          SpriteController.ColorConverter converter = new SpriteController.ColorConverter();
          Color colorObject = new Color(1,2,3);
          String colorString;
-         colorString = converter.getAsString(
+         colorString = converter.getAsString(//Creating instance of it
                  new FacesContextWrapper(){},
                  new UIColumn(),
                  colorObject);
          
-         assertEquals(colorString, "#010203");
+         assertEquals(colorString, "#010203"); //This will decide if pass or fail
      }
 }
