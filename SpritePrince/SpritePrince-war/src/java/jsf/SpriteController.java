@@ -293,7 +293,10 @@ public class SpriteController implements Serializable {
          **/
         @Override
         public String getAsString(FacesContext context, UIComponent component, Object value) {
-            String userInput = String.format("#%02x%02x%02x", ((Color)value).getRed(),((Color)value).getGreen(),((Color)value).getBlue());
+            String userInput = String.format("#%02x%02x%02x", 
+                    ((Color)value).getRed(),
+                    ((Color)value).getGreen(),
+                    ((Color)value).getBlue());
             
             return userInput;
         }
